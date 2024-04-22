@@ -2,17 +2,29 @@
     "name": "itwri/laravel-dialogue-message",
     "description": "Provide message service. Depend on laravel framework.",
     "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "Itwri\\DialogueMessageService\\": "src/"
-        }
-    },
     "authors": [
         {
             "name": "张祖飘",
             "email": "990881086@qq.com"
         }
     ],
-    "minimum-stability": "dev",
-    "require": {}
+    "require": {
+        "php": "^7.3|^8.0",
+        "ext-bcmath": "*",
+        "ext-gd": "*",
+        "ext-json": "*",
+        "ext-openssl": "*",
+        "ext-pdo": "*",
+        "laravel-lang/common": "^1.0",
+        "laravel/framework": "^8.75|^9.0|^10.0|^11.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "Itwri\\DialogueMessageService\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
 }
