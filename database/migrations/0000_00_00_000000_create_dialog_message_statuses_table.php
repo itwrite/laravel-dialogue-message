@@ -24,7 +24,6 @@ class CreateDialogMessageStatusesTable extends Migration
             $table->tinyInteger('is_removed')->default(0)->comment('是否已删除，0未删，1已删');
             $table->timestamps();
             $table->softDeletes();
-            $table->comment('消息状态表');
         });
     }
 

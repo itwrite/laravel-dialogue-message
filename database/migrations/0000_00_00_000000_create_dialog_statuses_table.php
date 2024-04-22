@@ -23,7 +23,6 @@ class CreateDialogStatusesTable extends Migration
             $table->tinyInteger('is_hidden')->default(0)->comment('是否隐藏，0显示，1隐藏');
             $table->timestamps();
             $table->softDeletes();
-            $table->comment('对话状态表');
         });
     }
 
