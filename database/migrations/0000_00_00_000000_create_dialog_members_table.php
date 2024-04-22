@@ -30,6 +30,6 @@ class CreateDialogMembersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dialogues');
+        Schema::dropIfExists('dialog_members');
     }
 }

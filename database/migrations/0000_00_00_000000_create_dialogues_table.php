@@ -16,7 +16,7 @@ class CreateDialoguesTable extends Migration
         Schema::create('dialogues', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('type')->default('')->comment('');
+            $table->string('type')->default('')->comment('类型');
             $table->nullableTimestamps();
             $table->softDeletes();
         });
