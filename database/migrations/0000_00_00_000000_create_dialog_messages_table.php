@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Class CreateMessagesTable.
  */
-class CreateMessagesTable extends Migration
+class CreateDialogMessagesTable extends Migration
 {
     /**
      * Run the migrations.
