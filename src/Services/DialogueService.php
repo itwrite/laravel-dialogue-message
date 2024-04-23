@@ -30,7 +30,7 @@ class DialogueService
         }
         $type = DialogueTypeEnum::SINGLE;
         //一对一聊天
-        if(count($others) == 1){
+        if(count($others) > 1){
             $type = DialogueTypeEnum::GROUP;
         }
 
