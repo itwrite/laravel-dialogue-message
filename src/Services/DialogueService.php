@@ -4,6 +4,7 @@ namespace Itwri\DialogueMessageService\Services;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 use Itwri\DialogueMessageService\Enums\DialogueTypeEnum;
 use Itwri\DialogueMessageService\Models\Dialogue;
@@ -34,11 +35,20 @@ class DialogueService
             $type = DialogueTypeEnum::GROUP;
         }
 
+        if($type == DialogueTypeEnum::SINGLE && count($others) == 1){ //一对一的对话情况，先检索数据库是否已有对话，有则返回已有的对话
+            $dialogue = Dialogue::query()->where(['member_count'=>2,'type'=>DialogueTypeEnum::SINGLE])->whereHas('members',function (HasMany $hasMany) use($createUser,$others){
+                $hasMany->whereIn('user_id',[$createUser->id,$others[0]->id]);
+            },'=',2);
+            if($dialogue){
+                return $dialogue;
+            }
+        }
+
         $datetime = date('Y-m-d H:i:s');
 
-        $params = array_merge($params,[
-            'type'=>$type,
+        $params = array_merge(array_merge(['type'=>$type],$params),[
             'create_user_id'=>$createUser->id,
+            'member_count'=>count($others) + 1, //创建者 + 其他人的数量
             'created_at'=>$datetime,
             'updated_at'=>$datetime
         ]);
@@ -95,6 +105,10 @@ class DialogueService
      */
     public function updateMemberCount(Dialogue $dialogue)
     {
-        return $dialogue->update(['member_count'=>DB::raw("(SELECT COUNT(DISTINCT dialogue_members.user_id) FROM dialogue_members WHERE dialogue_members.dialogue_id = dialogues.id)")]);
+        return $dialogue->update([
+            'member_count'=>DB::raw("(SELECT COUNT(DISTINCT dialogue_members.user_id) FROM dialogue_members WHERE dialogue_members.dialogue_id = dialogues.id)"),
+            //单聊可以变群聊，群聊不能变单聊
+            'type'=>DB::raw("if((SELECT COUNT(DISTINCT dialogue_members.user_id) FROM dialogue_members WHERE dialogue_members.dialogue_id = dialogues.id)>2,'".DialogueTypeEnum::GROUP."',type)")
+        ]);
     }
 }
