@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 class DialogueMessageServiceProvider extends ServiceProvider
 {
     public function boot(){
-        $date = date('Y_m_d');
+        $date = '2024_04_23';
         $this->publishes([
             __DIR__.'/../config/dialogue.php' => base_path('config/dialogue.php'),
         ], 'config');
