@@ -4,7 +4,6 @@ namespace Itwri\DialogueMessageService\Services;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 use Itwri\DialogueMessageService\Enums\DialogueTypeEnum;
 use Itwri\DialogueMessageService\Models\Dialogue;
@@ -36,8 +35,8 @@ class DialogueService
         }
 
         if($type == DialogueTypeEnum::SINGLE && count($others) == 1){ //一对一的对话情况，先检索数据库是否已有对话，有则返回已有的对话
-            $dialogue = Dialogue::query()->where(['member_count'=>2,'type'=>DialogueTypeEnum::SINGLE])->whereHas('members',function (HasMany $hasMany) use($createUser,$others){
-                $hasMany->whereIn('user_id',[$createUser->id,$others[0]->id]);
+            $dialogue = Dialogue::query()->where(['member_count'=>2,'type'=>DialogueTypeEnum::SINGLE])->whereHas('members',function (Builder $builder) use($createUser,$others){
+                return $builder->whereIn('user_id',[$createUser->id,$others[0]->id]);
             },'=',2);
             if($dialogue){
                 return $dialogue;
