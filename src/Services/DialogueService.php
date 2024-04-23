@@ -46,6 +46,9 @@ class DialogueService
         DB::beginTransaction();
         try {
 
+            /**
+             * @var Dialogue $dialogue
+             */
             $dialogue = Dialogue::query()->create($params);
             if(empty($dialogue)){
                 throw new \Exception('对话创建失败');
@@ -72,10 +75,27 @@ class DialogueService
             DialogueMember::query()->insert($members);
 
             DB::commit();
-            return $dialogue;
+
         }catch (\Exception $exception){
             DB::rollBack();
             throw $exception;
         }
+
+        $this->updateMemberCount($dialogue);
+
+        return $dialogue;
+    }
+
+    /**
+     * -------------------------------------------
+     * -------------------------------------------
+     * @param Dialogue $dialogue
+     * @return bool
+     * itwri 2024/4/23 17:23
+     */
+    public function updateMemberCount(Dialogue $dialogue)
+    {
+        $dialogue->member_count = DB::raw("(SELECT COUNT(DISTINCT dialogue_members.user_id) FROM dialogue_members WHERE dialogue_members.dialogue_id = dialogues.id)");
+        return $dialogue->update();
     }
 }
