@@ -2,6 +2,7 @@
 
 namespace Itwri\DialogueMessageService\Models;
 
+use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,11 +10,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User;
 use Itwri\DialogueMessageService\Traits\ModelTimeFormatTrait;
 
-class DialogMember extends Model
+class DialogueMember extends Model
 {
     use HasFactory,ModelTimeFormatTrait,SoftDeletes;
 
-    protected $fillable = ['dialog_id','user_id'];
+    protected $fillable = ['dialogue_id','user_id'];
 
     protected $hidden = ['deleted_at'];
 
@@ -23,13 +24,13 @@ class DialogMember extends Model
      * @return BelongsTo
      * itwri 2024/4/23 0:31
      */
-    public function dialog()
+    public function dialogue()
     {
-        return $this->belongsTo(Dialogue::class,'dialog_id');
+        return $this->belongsTo(Dialogue::class,'dialogue_id');
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(config('dialogue.user_model',User::class));
     }
 }

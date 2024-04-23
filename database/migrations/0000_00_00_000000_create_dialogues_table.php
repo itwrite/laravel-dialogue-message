@@ -16,7 +16,8 @@ class CreateDialoguesTable extends Migration
         Schema::create('dialogues', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('type')->default('')->comment('类型');
+            $table->integer('owner_id')->default(0)->comment("拥有者，关联用户表users,用户ID");
+            $table->string('type')->default('')->comment('类型:single-单一对话，group-群聊');
             $table->nullableTimestamps();
             $table->softDeletes();
         });

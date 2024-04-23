@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Class CreateMessagesTable.
  */
-class CreateDialogMessagesTable extends Migration
+class CreateDialogueMessagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,10 +16,10 @@ class CreateDialogMessagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('dialog_messages', function(Blueprint $table) {
+        Schema::create('dialogue_messages', function(Blueprint $table) {
             $table->increments('id');
-            $table->integer('dialog_id')->default(0)->comment('关联dialog，对话ID。');
-            $table->integer('dialog_member_id')->default(0)->comment('关联dialog_member，消息发送者。');
+            $table->integer('dialogue_id')->default(0)->comment('关联dialog，对话ID。');
+            $table->integer('dialogue_member_id')->default(0)->comment('关联dialogue_member，消息发送者。');
             $table->text("content")->nullable(true)->comment('消息正文');
             $table->string('type')->default('')->comment('消息类型');
             $table->timestamps();
@@ -34,6 +34,6 @@ class CreateDialogMessagesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('dialog_messages');
+        Schema::drop('dialogue_messages');
     }
 }

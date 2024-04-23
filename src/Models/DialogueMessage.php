@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Itwri\DialogueMessageService\Traits\ModelTimeFormatTrait;
 
-class DialogStatus extends Model
+class DialogueMessage extends Model
 {
     use HasFactory,ModelTimeFormatTrait,SoftDeletes;
 
-    protected $fillable = ['dialog_id','dialog_member_id','is_hidden'];
+    protected $fillable = ['dialogue_id','dialogue_member_id','type','content'];
 
     protected $hidden = ['deleted_at'];
 
@@ -22,13 +22,13 @@ class DialogStatus extends Model
      * @return BelongsTo
      * itwri 2024/4/23 0:31
      */
-    public function dialog()
+    public function dialogue()
     {
-        return $this->belongsTo(Dialogue::class,'dialog_id');
+        return $this->belongsTo(Dialogue::class,'dialogue_id');
     }
 
-    public function dialogMember()
+    public function DialogueMember()
     {
-        return $this->belongsTo(DialogMember::class,'dialog_member_id');
+        return $this->belongsTo(DialogueMember::class,'dialogue_member_id');
     }
 }
