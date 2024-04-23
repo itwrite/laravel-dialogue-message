@@ -95,7 +95,6 @@ class DialogueService
      */
     public function updateMemberCount(Dialogue $dialogue)
     {
-        $dialogue->member_count = DB::raw("(SELECT COUNT(DISTINCT dialogue_members.user_id) FROM dialogue_members WHERE dialogue_members.dialogue_id = dialogues.id)");
-        return $dialogue->update();
+        return $dialogue->update(['member_count'=>DB::raw("(SELECT COUNT(DISTINCT dialogue_members.user_id) FROM dialogue_members WHERE dialogue_members.dialogue_id = dialogues.id)")]);
     }
 }
