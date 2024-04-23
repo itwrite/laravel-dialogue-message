@@ -18,7 +18,7 @@ class CreateDialogueStatusesTable extends Migration
     {
         Schema::create('dialogue_statuses', function(Blueprint $table) {
             $table->increments('id');
-            $table->integer('dialogue_message_id')->default(0)->comment("外键，关联消息表的message_id。");
+            $table->integer('dialogue_id')->default(0)->comment("外键，关联dialog表的dialogue_id。");
             $table->integer('dialogue_member_id')->default(0)->comment("外键，关联用户表的user_id，表示该状态属于哪个用户。");
             $table->tinyInteger('is_hidden')->default(0)->comment('是否隐藏，0显示，1隐藏');
             $table->timestamps();
