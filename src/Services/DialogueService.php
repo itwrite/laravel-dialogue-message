@@ -37,7 +37,7 @@ class DialogueService
         if($type == DialogueTypeEnum::SINGLE && count($others) == 1){ //一对一的对话情况，先检索数据库是否已有对话，有则返回已有的对话
             $dialogue = Dialogue::query()->where(['member_count'=>2,'type'=>DialogueTypeEnum::SINGLE])->whereHas('members',function (Builder $builder) use($createUser,$others){
                 return $builder->whereIn('user_id',[$createUser->id,$others[0]->id]);
-            },'=',2);
+            },'=',2)->first();
             if($dialogue){
                 return $dialogue;
             }
