@@ -12,7 +12,7 @@ class Dialogue extends Model
 {
     use HasFactory,ModelTimeFormatTrait,SoftDeletes;
 
-    protected $fillable = ['name','type','owner_id'];
+    protected $fillable = ['name','type','create_user_id'];
 
     protected $hidden = ['deleted_at'];
 

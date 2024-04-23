@@ -16,27 +16,27 @@ class DialogueService
      * -------------------------------------------
      * 注：users 应包含owner
      * -------------------------------------------
-     * @param $users
-     * @param $owner
+     * @param $createUser
+     * @param $others
      * @param $params
      * @return Builder|Model|null
      * @throws \Exception
      * itwri 2024/4/23 11:25
      */
-    public function create($users,$owner,$params = [])
+    public function create($createUser,$others,$params = [])
     {
-        if(count($users) < 1){
+        if(count($others) < 1 || !$createUser){
             return null;
         }
         $type = DialogueTypeEnum::SINGLE;
         //一对一聊天
-        if(count($users) > 1){
+        if(count($others) == 1){
             $type = DialogueTypeEnum::GROUP;
         }
 
         $params = array_merge($params,[
             'type'=>$type,
-            'owner_id'=>$owner->id
+            'create_user_id'=>$createUser->id
         ]);
 
         DB::beginTransaction();
@@ -47,13 +47,22 @@ class DialogueService
                 throw new \Exception('对话创建失败');
             }
 
+            $members = [
+                [
+                    'dialogue_id'=>$dialogue->id,
+                    'user_id'=>$createUser->id
+                ]
+            ];
             //会话成员
-            foreach ($users as $user) {
-                DialogueMember::query()->create([
+            foreach ($others as $user) {
+                $members[] = [
                     'dialogue_id'=>$dialogue->id,
                     'user_id'=>$user->id
-                ]);
+                ];
             }
+
+            DialogueMember::query()->insert($members);
+
             DB::commit();
             return $dialogue;
         }catch (\Exception $exception){
