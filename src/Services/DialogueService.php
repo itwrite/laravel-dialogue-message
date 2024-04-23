@@ -34,9 +34,13 @@ class DialogueService
             $type = DialogueTypeEnum::GROUP;
         }
 
+        $datetime = date('Y-m-d H:i:s');
+
         $params = array_merge($params,[
             'type'=>$type,
-            'create_user_id'=>$createUser->id
+            'create_user_id'=>$createUser->id,
+            'created_at'=>$datetime,
+            'updated_at'=>$datetime
         ]);
 
         DB::beginTransaction();
@@ -50,14 +54,18 @@ class DialogueService
             $members = [
                 [
                     'dialogue_id'=>$dialogue->id,
-                    'user_id'=>$createUser->id
+                    'user_id'=>$createUser->id,
+                    'created_at'=>$datetime,
+                    'updated_at'=>$datetime
                 ]
             ];
             //会话成员
             foreach ($others as $user) {
                 $members[] = [
                     'dialogue_id'=>$dialogue->id,
-                    'user_id'=>$user->id
+                    'user_id'=>$user->id,
+                    'created_at'=>$datetime,
+                    'updated_at'=>$datetime
                 ];
             }
 

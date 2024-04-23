@@ -30,6 +30,8 @@ class MessageService
         if($sender->dialogue_id != $dialogue->id){
             return null;
         }
+        $datetime = date('Y-m-d H:i:s');
+
         DB::beginTransaction();
         try {
             /**
@@ -39,7 +41,9 @@ class MessageService
                 'dialogue_id'=>$dialogue->id,
                 'dialogue_member_id'=>$sender->id,
                 'type'=>DialogueMessageTypeEnum::TEXT,
-                'content'=>$message
+                'content'=>$message,
+                'created_at'=>$datetime,
+                'updated_at'=>$datetime
             ]);
             if(empty($dialogueMessage)){
                 throw new \Exception('消息生成失败');
@@ -51,7 +55,9 @@ class MessageService
                     'dialogue_id'=>$dialogue->id,
                     'dialogue_member_id'=>$member->id,
                     'is_read'=>0,
-                    'is_removed'=>0
+                    'is_removed'=>0,
+                    'created_at'=>$datetime,
+                    'updated_at'=>$datetime
                 ];
             }
             //生成消息对应用户的状态
