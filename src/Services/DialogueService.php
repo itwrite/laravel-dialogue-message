@@ -104,7 +104,7 @@ class DialogueService
      */
     public function updateMemberCount(Dialogue $dialogue)
     {
-        return $dialogue->update([
+        return DB::table('dialogues')->where(['id'=>$dialogue->id])->update([
             'member_count'=>DB::raw("(SELECT COUNT(DISTINCT dialogue_members.user_id) FROM dialogue_members WHERE dialogue_members.dialogue_id = dialogues.id)"),
             //单聊可以变群聊，群聊不能变单聊
             'type'=>DB::raw("if((SELECT COUNT(DISTINCT dialogue_members.user_id) FROM dialogue_members WHERE dialogue_members.dialogue_id = dialogues.id)>2,'".DialogueTypeEnum::GROUP."',type)")
