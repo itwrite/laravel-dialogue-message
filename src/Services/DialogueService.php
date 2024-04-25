@@ -23,21 +23,18 @@ class DialogueService
      * @throws \Exception
      * itwri 2024/4/23 11:25
      */
-    public function create($createUser,$others,$params = [])
+    public function create($createUser,$others, $name, $type=DialogueTypeEnum::NORMAL,$params = [])
     {
         if(count($others) < 1 || !$createUser){
             return null;
         }
-        $type = DialogueTypeEnum::SINGLE;
-        //一对一聊天
-        if(count($others) > 1){
-            $type = DialogueTypeEnum::GROUP;
-        }
 
-        if($type == DialogueTypeEnum::SINGLE && count($others) == 1){ //一对一的对话情况，先检索数据库是否已有对话，有则返回已有的对话
-            $dialogue = Dialogue::query()->where(['member_count'=>2,'type'=>DialogueTypeEnum::SINGLE])->whereHas('members',function (Builder $builder) use($createUser,$others){
+        $peopleCount = count($others) + 1; //拉起对话的人 与 聊天目标用户数
+
+        if($peopleCount == 2){ //一对一的对话情况，先检索数据库是否已有对话，有则返回已有的对话
+            $dialogue = Dialogue::query()->where(['member_count'=>$peopleCount,'type'=>$type])->whereHas('members',function (Builder $builder) use($createUser,$others){
                 return $builder->whereIn('user_id',[$createUser->id,$others[0]->id]);
-            },'=',2)->first();
+            },'=',$peopleCount)->first();
             if($dialogue){
                 return $dialogue;
             }
@@ -45,9 +42,9 @@ class DialogueService
 
         $datetime = date('Y-m-d H:i:s');
 
-        $params = array_merge(array_merge(['type'=>$type],$params),[
+        $params = array_merge(array_merge(['type'=>$type,'name'=>$name],$params),[
             'create_user_id'=>$createUser->id,
-            'member_count'=>count($others) + 1, //创建者 + 其他人的数量
+            'member_count'=>$peopleCount, //创建者 + 其他人的数量
             'created_at'=>$datetime,
             'updated_at'=>$datetime
         ]);
@@ -106,8 +103,6 @@ class DialogueService
     {
         return DB::table('dialogues')->where(['id'=>$dialogue->id])->update([
             'member_count'=>DB::raw("(SELECT COUNT(DISTINCT dialogue_members.user_id) FROM dialogue_members WHERE dialogue_members.dialogue_id = dialogues.id)"),
-            //单聊可以变群聊，群聊不能变单聊
-            'type'=>DB::raw("if((SELECT COUNT(DISTINCT dialogue_members.user_id) FROM dialogue_members WHERE dialogue_members.dialogue_id = dialogues.id)>2,'".DialogueTypeEnum::GROUP."',type)")
         ]);
     }
 }
