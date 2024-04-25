@@ -4,15 +4,20 @@ namespace Itwri\DialogueMessageService\Events;
 
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Itwri\DialogueMessageService\Models\Dialogue;
 
-class NewDialogueCreated
+class NewDialogueCreated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $dialogue;
+    /**
+     * @var Dialogue
+     */
+    public Dialogue $dialogue;
+
     /**
      * Create a new event instance.
      *

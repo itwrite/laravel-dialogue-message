@@ -13,7 +13,10 @@ class NewMessageCreated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $dialogueMessage;
+    /**
+     * @var DialogueMessage
+     */
+    public DialogueMessage $dialogueMessage;
 
     public function __construct(DialogueMessage $dialogueMessage)
     {
