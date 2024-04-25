@@ -2,6 +2,7 @@
 
 namespace Itwri\DialogueMessageService\Events;
 
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -40,7 +41,7 @@ class NewDialogueCreated implements ShouldBroadcast
     {
         $channels = [];
         foreach ($this->dialogue->members as $member) {
-            $channels[] =  new PrivateChannel('dialogue.new-'.$member->user_id);
+            $channels[] =  new Channel('dialogue.new-'.$member->user_id);
         }
         return $channels;
     }
