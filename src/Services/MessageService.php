@@ -27,8 +27,8 @@ class MessageService
     public function send(DialogueMember $sender, $message, Dialogue $dialogue)
     {
         //发送人不在会话内则消息无效
-        if($sender->dialogue_id != $dialogue->id){
-            return null;
+        if($sender->id > 0 && $sender->dialogue_id != $dialogue->id){
+            throw new \Exception('无权发言');
         }
         $datetime = date('Y-m-d H:i:s');
 
