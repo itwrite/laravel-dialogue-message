@@ -18,6 +18,7 @@ class CreateDialogueMembersTable extends Migration
             $table->increments('id');
             $table->integer('dialogue_id')->default(0)->comment('对话ID');
             $table->integer('user_id')->default(0)->comment('用户ID');
+            $table->string('alias_name')->default('')->comment('别名');
             $table->nullableTimestamps();
             $table->softDeletes();
         });
