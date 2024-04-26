@@ -27,7 +27,7 @@ class DialogueMessage extends Model
         return $this->belongsTo(Dialogue::class,'dialogue_id');
     }
 
-    public function DialogueMember()
+    public function dialogueMember()
     {
         return $this->belongsTo(DialogueMember::class,'dialogue_member_id');
     }
