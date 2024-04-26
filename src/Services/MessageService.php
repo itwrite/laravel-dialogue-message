@@ -54,7 +54,7 @@ class MessageService
                 $statuses[] = [
                     'dialogue_message_id'=>$dialogueMessage->id,
                     'dialogue_member_id'=>$member->id,
-                    'is_read'=>0,
+                    'is_read'=>$member->id == $sender->id?1:0,
                     'is_removed'=>0,
                     'created_at'=>$datetime,
                     'updated_at'=>$datetime
