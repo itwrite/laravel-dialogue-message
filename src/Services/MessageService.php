@@ -20,7 +20,7 @@ class MessageService
      * @param DialogueMember $sender
      * @param $message
      * @param Dialogue $dialogue
-     * @return void|null
+     * @return DialogueMessage|null
      * @throws \Exception
      * itwri 2024/4/23 15:29
      */
@@ -74,5 +74,7 @@ class MessageService
 
         //新消息
         event(new NewMessageCreated($dialogueMessage));
+
+        return $dialogueMessage;
     }
 }
