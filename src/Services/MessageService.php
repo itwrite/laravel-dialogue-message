@@ -77,4 +77,33 @@ class MessageService
 
         return $dialogueMessage;
     }
+
+    /**
+     * -------------------------------------------
+     * 阅读消息
+     * -------------------------------------------
+     * @param DialogueMember $dialogueMember
+     * @param DialogueMessage $dialogueMessage
+     * @return bool|int
+     * itwri 2024/4/26 21:39
+     */
+    public function read(DialogueMember $dialogueMember,DialogueMessage $dialogueMessage)
+    {
+        $dialogueMessageStatus = DialogueMessageStatus::query()->where(['dialogue_message_id'=>$dialogueMessage->id,'dialogue_member_id'=>$dialogueMember->id])->first();
+
+        if(!empty($dialogueMessageStatus)){
+            $dialogueMessageStatus = DialogueMessageStatus::query()->create([
+                'dialogue_id'=>$dialogueMessage->dialogue_id,
+                'dialogue_member_id'=>$dialogueMember->id,
+                'is_read'=>1,
+                'is_removed'=>0
+            ]);
+            if(empty($dialogueMessageStatus)){
+                return false;
+            }
+            return true;
+        }
+
+        return $dialogueMessageStatus->update(['is_read'=>1]);
+    }
 }
