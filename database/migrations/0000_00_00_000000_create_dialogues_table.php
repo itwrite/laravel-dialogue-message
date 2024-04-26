@@ -16,9 +16,10 @@ class CreateDialoguesTable extends Migration
         Schema::create('dialogues', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('create_user_id')->default(0)->comment("创建人，关联用户表users的ID，如果是系统则为0");
             $table->integer('member_count')->default(0)->comment('成员数量');
             $table->string('type')->default('normal')->comment('类型:system-系统消息，normal-普通消息');
+            $table->integer('create_user_id')->default(0)->comment("创建人，关联用户表users的ID，如果是系统则为0");
+            $table->integer('delete_user_id')->default(0)->comment('删除人ID');
             $table->nullableTimestamps();
             $table->softDeletes();
         });
