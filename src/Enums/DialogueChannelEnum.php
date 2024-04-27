@@ -2,7 +2,7 @@
 
 namespace Itwri\DialogueMessageService\Enums;
 
-class DialogueTypeEnum
+class DialogueChannelEnum
 {
     const SYSTEM = 'system';
     const NORMAL = 'normal';
