@@ -93,7 +93,7 @@ class MessageService
 
         if(!empty($dialogueMessageStatus)){
             $dialogueMessageStatus = DialogueMessageStatus::query()->create([
-                'dialogue_id'=>$dialogueMessage->dialogue_id,
+                'dialogue_message_id'=>$dialogueMessage->id,
                 'dialogue_member_id'=>$dialogueMember->id,
                 'is_read'=>1,
                 'is_removed'=>0
