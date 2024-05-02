@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Itwri\DialogueMessageService\Enums\DialogueChannelEnum;
+use Itwri\DialogueMessageService\Events\NewDialogueCreated;
 use Itwri\DialogueMessageService\Models\Dialogue;
 use Itwri\DialogueMessageService\Models\DialogueMember;
 
@@ -86,6 +87,8 @@ class DialogueService
             DB::rollBack();
             throw $exception;
         }
+        //创建新会话成功
+        event(new NewDialogueCreated($dialogue));
 
         $this->updateMemberCount($dialogue);
 
