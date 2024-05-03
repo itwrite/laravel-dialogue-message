@@ -91,7 +91,7 @@ class MessageService
     {
         $dialogueMessageStatus = DialogueMessageStatus::query()->where(['dialogue_message_id'=>$dialogueMessage->id,'dialogue_member_id'=>$dialogueMember->id])->first();
 
-        if(!empty($dialogueMessageStatus)){
+        if(empty($dialogueMessageStatus)){
             $dialogueMessageStatus = DialogueMessageStatus::query()->create([
                 'dialogue_message_id'=>$dialogueMessage->id,
                 'dialogue_member_id'=>$dialogueMember->id,
