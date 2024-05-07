@@ -36,7 +36,7 @@ class NewMessageCreated implements ShouldBroadcast
         $members = $this->dialogueMessage->dialogue->members;
         $channels = [];
         foreach ($members as $member) {
-            $channels[] =  new PrivateChannel('message.new-'.$member->user_id);
+            $channels[] =  new Channel('message.new-'.$member->user_id);
         }
         return $channels;
     }
