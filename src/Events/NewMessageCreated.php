@@ -21,6 +21,13 @@ class NewMessageCreated implements ShouldBroadcast
 
     public function __construct(DialogueMessage $dialogueMessage)
     {
+        /**
+         * 这段代码是有用的，加载模型关系with的数据
+         */
+        if($dialogueMessage->dialogueMember){
+            $dialogueMessage->dialogueMember->user;
+        }
+
         $this->dialogueMessage = $dialogueMessage;
     }
 
