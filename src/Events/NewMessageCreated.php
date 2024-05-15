@@ -8,6 +8,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Carbon;
 use Itwri\DialogueMessageService\Models\DialogueMessage;
 
 class NewMessageCreated implements ShouldBroadcast
@@ -27,6 +28,11 @@ class NewMessageCreated implements ShouldBroadcast
         if($dialogueMessage->dialogueMember){
             $dialogueMessage->dialogueMember->user;
         }
+
+        $startOfToday = Carbon::now()->startOfDay();
+        $createdAt = Carbon::parse($dialogueMessage->created_at);
+
+        $dialogueMessage->setAttribute('created_at_text2',$createdAt->format(($createdAt < $startOfToday ? '昨天 ':'').'H:i'));
 
         $this->dialogueMessage = $dialogueMessage;
     }
