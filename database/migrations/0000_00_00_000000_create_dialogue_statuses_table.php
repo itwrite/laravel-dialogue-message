@@ -23,6 +23,9 @@ class CreateDialogueStatusesTable extends Migration
             $table->tinyInteger('is_hidden')->default(0)->comment('是否隐藏，0显示，1隐藏');
             $table->timestamps();
             $table->softDeletes();
+            $table->index('dialogue_id');
+            $table->index('dialogue_member_id');
+            $table->index(['dialogue_id','dialogue_member_id']);
         });
     }
 

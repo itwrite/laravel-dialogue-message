@@ -24,6 +24,10 @@ class CreateDialogueMessageStatusesTable extends Migration
             $table->tinyInteger('is_removed')->default(0)->comment('是否已删除，0未删，1已删');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index('dialogue_message_id');
+            $table->index('dialogue_member_id');
+            $table->index(['dialogue_member_id','dialogue_message_id']);
         });
     }
 

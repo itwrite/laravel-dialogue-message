@@ -24,6 +24,9 @@ class CreateDialogueMessagesTable extends Migration
             $table->string('type')->default('')->comment('消息类型');
             $table->timestamps();
             $table->softDeletes();
+            $table->index('dialogue_id');
+            $table->index('dialogue_member_id');
+            $table->index(['dialogue_member_id','dialogue_id']);
         });
     }
 

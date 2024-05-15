@@ -21,6 +21,10 @@ class CreateDialogueMembersTable extends Migration
             $table->string('alias_name')->default('')->comment('别名');
             $table->nullableTimestamps();
             $table->softDeletes();
+
+            $table->index('dialogue_id');
+            $table->index('user_id');
+            $table->index(['user_id','dialogue_id']);
         });
     }
 
