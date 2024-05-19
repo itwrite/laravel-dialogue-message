@@ -24,7 +24,7 @@ class MessageService
      * @throws \Exception
      * itwri 2024/4/23 15:29
      */
-    public function send(DialogueMember $sender, $message, Dialogue $dialogue)
+    public function send(DialogueMember $sender, $message, Dialogue $dialogue,$type=DialogueMessageTypeEnum::TEXT)
     {
         //发送人不在会话内则消息无效
         if($sender->id > 0 && $sender->dialogue_id != $dialogue->id){
@@ -40,7 +40,7 @@ class MessageService
             $dialogueMessage = DialogueMessage::query()->create([
                 'dialogue_id'=>$dialogue->id,
                 'dialogue_member_id'=>$sender->id,
-                'type'=>DialogueMessageTypeEnum::TEXT,
+                'type'=>$type,
                 'content'=>$message,
                 'created_at'=>$datetime,
                 'updated_at'=>$datetime
