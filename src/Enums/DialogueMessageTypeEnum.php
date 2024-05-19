@@ -2,7 +2,7 @@
 
 namespace Itwri\DialogueMessageService\Enums;
 
-class DialogueMessageTypeEnum
+interface DialogueMessageTypeEnum
 {
     const TEXT = 'text';
 }
