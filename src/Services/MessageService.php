@@ -73,7 +73,7 @@ class MessageService
         }
 
         //新消息
-        event(new NewMessageCreated($dialogueMessage));
+        broadcast(new NewMessageCreated($dialogueMessage))->toOthers();
 
         return $dialogueMessage;
     }
