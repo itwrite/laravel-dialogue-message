@@ -28,6 +28,8 @@ class NewMessageCreated implements ShouldBroadcast
         if($dialogueMessage->dialogueMember){
             $dialogueMessage->dialogueMember->user;
         }
+        //加载模型关系with的数据
+        $dialogueMessage->quoteMessage;
 
         $startOfToday = Carbon::now()->startOfDay();
         $createdAt = Carbon::parse($dialogueMessage->created_at);
