@@ -66,6 +66,9 @@ class MessageService
             //新消息会激活用户对会话的可见性, 这里可以无差别的更新，新消息对所有成员都可见
             DialogueStatus::query()->where(['dialogue_id'=>$dialogue->id])->update(['is_hidden'=>0]);
 
+            //更新消息的时间到会话中
+            $dialogue->update(['last_message_created_at'=>date('Y-m-d H:i:s')]);
+
             DB::commit();
         }catch (\Exception $exception){
             DB::rollBack();
