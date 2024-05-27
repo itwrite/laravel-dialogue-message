@@ -12,7 +12,7 @@ class DialogueMessage extends Model
 {
     use HasFactory,ModelTimeFormatTrait,SoftDeletes;
 
-    protected $fillable = ['dialogue_id','dialogue_member_id','type','content'];
+    protected $fillable = ['dialogue_id','dialogue_member_id','type','content','quote_message_id'];
 
     protected $hidden = ['deleted_at'];
 
@@ -30,5 +30,17 @@ class DialogueMessage extends Model
     public function dialogueMember()
     {
         return $this->belongsTo(DialogueMember::class,'dialogue_member_id');
+    }
+
+    /**
+     * -------------------------------------------
+     * 引用的消息
+     * -------------------------------------------
+     * @return BelongsTo
+     * itwri 2024/5/27 15:31
+     */
+    public function quoteMessage()
+    {
+        return $this->belongsTo(DialogueMessage::class,'quote_message_id');
     }
 }

@@ -20,6 +20,7 @@ class CreateDialogueMessagesTable extends Migration
             $table->increments('id');
             $table->integer('dialogue_id')->default(0)->comment('关联dialog，对话ID。');
             $table->integer('dialogue_member_id')->default(0)->comment('关联dialogue_member，消息发送者。');
+            $table->integer('quote_message_id')->default(0)->comment('引用的消息ID');
             $table->text("content")->nullable(true)->comment('消息正文');
             $table->string('type')->default('text')->comment('消息类型');
             $table->timestamps();
