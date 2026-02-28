@@ -27,7 +27,7 @@ class CreateDialogueMessagesTable extends Migration
             $table->softDeletes();
             $table->index('dialogue_id');
             $table->index('dialogue_member_id');
-            $table->index(['dialogue_member_id','dialogue_id']);
+            $table->index(['dialogue_member_id','dialogue_id'],'dialogue_member_id_idx');
         });
     }
 
