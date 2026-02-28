@@ -27,7 +27,7 @@ class CreateDialogueMessageStatusesTable extends Migration
 
             $table->index('dialogue_message_id');
             $table->index('dialogue_member_id');
-            $table->index(['dialogue_member_id','dialogue_message_id']);
+            $table->index(['dialogue_member_id','dialogue_message_id'],'dialogue_member_message_idx');
         });
     }
 
